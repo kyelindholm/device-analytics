@@ -1,91 +1,72 @@
-# Social Media Analytics Dashboard
+# Interactive System Monitor Dashboard
 
 ## **Project Overview**
-A self-hosted dashboard that aggregates and visualizes social media interactions across multiple platforms, providing insights into messaging patterns, engagement trends, and sentiment analysis.
+A self-hosted dashboard that visualizes real-time **CPU, memory, disk, and network activity** from your machine or server.
 
 ---
 
 ## **Development Roadmap**
 
-### **Phase 1: Project Setup & Core API Development**
+### **Phase 1: Project Setup & Backend Development**
 
 ✅ **1. Set Up the Project**  
-   - Initialize a Go project (`go mod init social-analytics`)
+   - Initialize a Go project (`go mod init sysmon-dashboard`)
    - Set up a basic API framework (Gin, Fiber, or Echo)
-   - Define API structure (REST or GraphQL)
-   - Create a `.env` config for database & API keys
+   - Create `.env` file for configuration settings
 
-✅ **2. Database & Schema Design**  
-   - Choose **PostgreSQL** (relational) or **Neo4j** (graph-based)
-   - Define schema for:
-     - Users
-     - Conversations (messages, timestamps, platform)
-     - Contacts/Connections
-   - Implement basic CRUD operations
+✅ **2. System Data Collection (Go Backend)**  
+   - Use [`gopsutil`](https://github.com/shirou/gopsutil) to collect:
+     - CPU usage
+     - Memory usage
+     - Disk usage
+     - Network activity
+   - Implement API endpoints for retrieving system stats
 
-✅ **3. API Endpoints for Data Ingestion**  
-   - `/ingest/twitter` → Store user’s latest tweets & mentions  
-   - `/ingest/telegram` → Fetch recent messages  
-   - `/ingest/slack` → Pull messages from channels  
-   - Store messages in DB  
+✅ **3. Implement WebSocket for Real-Time Updates**  
+   - Use **Gorilla WebSockets** to push live system metrics to the frontend
+   - Optimize update intervals to reduce performance overhead
 
-✅ **4. Authentication & API Access**  
-   - Implement **OAuth2** or API key authentication  
-   - Store user authentication tokens securely  
+✅ **4. Database & Historical Data Logging** (Optional)
+   - Store system metrics in **SQLite/PostgreSQL** for historical analysis
+   - Implement API endpoints for querying historical data
 
 ---
 
-### **Phase 2: Data Processing & Analytics Engine**
+### **Phase 2: Frontend Dashboard Development**
 
-✅ **5. Data Aggregation & Querying**  
-   - Implement queries for:  
-     - Most active conversations  
-     - Top messaged contacts  
-     - Most mentioned users  
-
-✅ **6. Analytics Engine (Python & Go)**  
-   - Implement time-series analysis (when users are most active)
-   - Add sentiment analysis (basic NLP in Python)
-   - Store computed analytics in DB  
-
-✅ **7. API Endpoints for Analytics**  
-   - `/analytics/top-contacts`
-   - `/analytics/message-volume`
-   - `/analytics/sentiment-trends`  
-
----
-
-### **Phase 3: Frontend Dashboard (React + D3.js)**
-
-✅ **8. Set Up Frontend Framework**  
+✅ **5. Set Up Frontend Framework**  
    - Use **React (Next.js or Vite)**
-   - Connect frontend to backend API  
+   - Connect frontend to backend API via WebSockets & REST
 
-✅ **9. Build Key Dashboard Components**  
-   - Contact leaderboard (who you talk to the most)  
-   - Conversation heatmap (message frequency over time)  
-   - Sentiment trend graph  
+✅ **6. Build Key Dashboard Components**  
+   - **CPU Usage Graph** (Real-time line chart)
+   - **Memory Usage Bar Chart**
+   - **Disk Usage Overview**
+   - **Network Traffic Graph**
+   - **Process List** (Top processes by CPU/memory usage)
 
-✅ **10. Graph-Based Visualization (D3.js or Cytoscape.js)**  
-   - Display social connections as a **network graph**  
-   - Allow filtering by platform (Twitter, Telegram, Slack, etc.)  
-
-✅ **11. Frontend Authentication & User Profiles**  
-   - Implement login & account settings  
-   - Let users manage connected platforms  
+✅ **7. Data Visualization & UI Enhancements**  
+   - Use **D3.js, Recharts, or Chart.js** for visualizations
+   - Implement **dark mode**
+   - Add filtering options (e.g., show last 5min, 1hr, 24hr data)
 
 ---
 
-### **Phase 4: Deployment & Final Features**
+### **Phase 3: Deployment & Final Features**
 
-✅ **12. Docker & Deployment**  
-   - Create a **Docker Compose** file (Go API + Postgres + React)  
-   - Deploy on **AWS/GCP/DigitalOcean**  
+✅ **8. Docker & Deployment**  
+   - Create a **Docker Compose** file (Go API + React frontend)
+   - Deploy on **local machine, Raspberry Pi, or cloud server**
 
-✅ **13. Performance Optimization**  
-   - Add **caching** (Redis)  
-   - Optimize database queries  
+✅ **9. Performance Optimization**  
+   - Add **caching** (Redis) for API responses
+   - Optimize WebSocket messages to reduce bandwidth usage
 
-✅ **14. Stretch Goals**  
-   - Implement **webhooks** for real-time data updates  
-   - Create **browser extensions** for easy tracking  
+✅ **10. Stretch Goals**  
+   - Implement **alerts** (e.g., CPU > 90% sends a notification)
+   - Add **remote monitoring** (track multiple machines from one UI)
+   - Create a **desktop app** version with **Tauri or Electron**
+
+---
+
+This project will give you hands-on experience with **Go, WebSockets, system monitoring, real-time dashboards, and efficient data handling.** 🚀
